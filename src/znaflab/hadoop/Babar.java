@@ -14,10 +14,10 @@ public class Babar {
 		public void map(LongWritable key, Text value, OutputCollector<Text, IntWritable> output, Reporter reporter) throws IOException {
 		String url = value.toString();
 		HttpClient client = new HttpClient();
-        GetMethod method = new GetMethod(url);
-
+		GetMethod method = new GetMethod(url);
+		
 		// Send GET request
-        int statusCode = client.executeMethod(method);
+		int statusCode = client.executeMethod(method);
 		
 		java.io.BufferedInputStream in = new java.io.BufferedInputStream(new java.net.URL(url).openStream());
 		java.io.ByteArrayOutputStream bout = new ByteArrayOutputStream();
@@ -27,27 +27,26 @@ public class Babar {
 			bout.write(buffer);
 		}
 		
-		collect(value, new BytesWritable(bout.toByteArray()))
+		collect(value, new BytesWritable(bout.toByteArray()));
 		in.close();
 		}
 	}
-}
 
-public static void main(String[] args) throws Exception {
-	JobConf conf = new JobConf(Babar.class);
-	conf.setJobName("babar");
-
-	conf.setOutputKeyClass(Text.class);
-	conf.setOutputValueClass(IntWritable.class);
-
-	conf.setMapperClass(Map.class);
-
-	conf.setInputFormat(TextInputFormat.class);
-	conf.setOutputFormat(SequenceFileOutputFormat.class);
-
-	FileInputFormat.setInputPaths(conf, new Path(args[0]));
-	FileOutputFormat.setOutputPath(conf, new Path(args[1]));
-
-	JobClient.runJob(conf);
-	}
+	public static void main(String[] args) throws Exception {
+		JobConf conf = new JobConf(Babar.class);
+		conf.setJobName("babar");
+		
+		conf.setOutputKeyClass(Text.class);
+		conf.setOutputValueClass(IntWritable.class);
+		
+		conf.setMapperClass(Map.class);
+		
+		conf.setInputFormat(TextInputFormat.class);
+		conf.setOutputFormat(SequenceFileOutputFormat.class);
+		
+		FileInputFormat.setInputPaths(conf, new Path(args[0]));
+		FileOutputFormat.setOutputPath(conf, new Path(args[1]));
+		
+		JobClient.runJob(conf);
+		}
 }
