@@ -1,0 +1,1 @@
+Babar was designed to make batch-processing of non-splittable files in a little less painful. It is especially well-suited to streaming jobs that process sequence files.
